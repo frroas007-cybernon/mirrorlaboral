@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Tu resultado — Mirror Laboral{% endblock %}
+{% block content %}
+
+{% if riesgo_flag %}
+<div class="card" style="border-color:#d98a5f;">
+  <strong style="color:#7a3a1e;">Si necesitas hablar con alguien ahora, no esperes a leer el resultado.</strong>
+  <p style="margin-top:6px;">Salud Responde: {{ telefono_ayuda }} (línea gratuita, disponible las 24 horas).</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <h1>{{ resultado.titulo }}</h1>
+  {% for parrafo in resultado.parrafos %}
+  <p>{{ parrafo }}</p>
+  {% endfor %}
+</div>
+
+<div class="cta-box">
+  <p><strong>¿Quieres ver esto completo?</strong></p>
+  <p>Tu Mirror completo profundiza en las 6 áreas, muestra cómo se conectan entre sí, y te entrega un mapa de
+  alternativas para tu situación específica — desde $15.000.</p>
+  <span class="btn" style="opacity:0.6; cursor:default;">Mirror completo — disponible pronto</span>
+</div>
+
+<p class="disclaimer">Este Mirror se arma solo con lo que respondiste. No reemplaza una evaluación profesional.</p>
+{% endblock %}

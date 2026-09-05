@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Tu Mirror gratis — Mirror Laboral{% endblock %}
+{% block content %}
+<h1>Tu Mirror</h1>
+<p>6 preguntas, 2-3 minutos. Solo pedimos tu correo para enviarte el resultado.</p>
+
+<form method="post" action="/mirror1" class="card">
+
+  <fieldset>
+    <legend>Antes de empezar: en las últimas semanas, ¿has sentido que ya no puedes más, o has tenido pensamientos
+    de hacerte daño?</legend>
+    <div class="opciones">
+      {% for value, label in riesgo_opciones %}
+      <label>
+        <input type="radio" name="riesgo" value="{{ value }}" required onchange="chequearRiesgo(this)">
+        {{ label }}
+      </label>
+      {% endfor %}
+    </div>
+    <div class="aviso-riesgo" id="aviso-riesgo">
+      <strong>Si necesitas hablar con alguien ahora, no esperes el resultado del Mirror.</strong>
+      Salud Responde: {{ telefono_ayuda }} (línea gratuita, disponible las 24 horas). Puedes seguir con el Mirror si
+      quieres, a tu ritmo — este aviso no bloquea el formulario.
+    </div>
+  </fieldset>
+
+  {% for key, texto in preguntas %}
+  <fieldset>
+    <legend>{{ loop.index }}. {{ texto }}</legend>
+    <div class="opciones">
+      {% for value, label in escala %}
+      <label>
+        <input type="radio" name="{{ key }}" value="{{ value }}" required> {{ label }}
+      </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+
+  <fieldset>
+    <legend>6. ¿Hace cuánto tiempo sientes que esto viene ocurriendo?</legend>
+    <div class="opciones">
+      {% for value, label in tiempo_opciones %}
+      <label>
+        <input type="radio" name="contexto" value="{{ value }}" required> {{ label }}
+      </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿A dónde te enviamos tu Mirror?</legend>
+    <input type="email" name="email" placeholder="tu@correo.cl" required>
+  </fieldset>
+
+  <button type="submit">Ver mi resultado</button>
+</form>
+
+<script>
+  function chequearRiesgo(input) {
+    var aviso = document.getElementById('aviso-riesgo');
+    aviso.style.display = (input.value !== 'no') ? 'block' : 'none';
+  }
+</script>
+{% endblock %}

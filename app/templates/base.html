@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Mirror Laboral{% endblock %}</title>
+  <style>
+    :root {
+      --azul: #173F46;
+      --verde: #9FAF9F;
+      --arena: #D9CDBF;
+      --marfil: #F7F4EF;
+      --carbon: #303436;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--marfil);
+      color: var(--carbon);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
+    header.site { padding: 20px; text-align: center; }
+    header.site .brand { color: var(--azul); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em; }
+    header.site .tagline { color: var(--carbon); opacity: 0.7; font-size: 0.9rem; margin-top: 2px; }
+    h1 { color: var(--azul); font-size: 1.5rem; margin-bottom: 4px; }
+    h2 { color: var(--azul); font-size: 1.15rem; }
+    p { margin: 0 0 14px; }
+    .card {
+      background: #fff;
+      border: 1px solid var(--arena);
+      border-radius: 14px;
+      padding: 22px 20px;
+      margin-bottom: 18px;
+    }
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 26px;
+    }
+    legend {
+      font-weight: 600;
+      color: var(--carbon);
+      margin-bottom: 10px;
+      padding: 0;
+    }
+    .opciones label {
+      display: block;
+      background: var(--marfil);
+      border: 1px solid var(--arena);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .opciones input { margin-right: 8px; }
+    .opciones label:hover { border-color: var(--verde); }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--arena);
+      font-size: 1rem;
+    }
+    button, .btn {
+      display: inline-block;
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button:hover, .btn:hover { opacity: 0.92; }
+    .aviso-riesgo {
+      display: none;
+      background: #fff4ef;
+      border: 1px solid #d98a5f;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+    }
+    .aviso-riesgo strong { display: block; margin-bottom: 4px; color: #7a3a1e; }
+    .disclaimer { font-size: 0.8rem; color: var(--carbon); opacity: 0.65; margin-top: 24px; }
+    .cta-box { background: var(--verde); border-radius: 14px; padding: 20px; text-align: center; }
+    .cta-box p { color: var(--azul); }
+    footer.site { text-align: center; padding: 30px 20px; font-size: 0.8rem; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="brand">MIRROR LABORAL</div>
+    <div class="tagline">Claridad antes de decidir</div>
+  </header>
+  <div class="wrap">
+    {% block content %}{% endblock %}
+  </div>
+  <footer class="site">Mirror Laboral · mirrorlaboral@gmail.com</footer>
+</body>
+</html>
