@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Panel — Mirror Laboral{% endblock %}
+{% block full_content %}
+<div class="wrap-ancho" style="padding-top:30px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <h1>Hola, {{ profesional.nombre }}</h1>
+    <a class="btn btn-secundario" href="/panel/logout">Cerrar sesión</a>
+  </div>
+  <p style="opacity:0.75;">
+    {% if profesional_id == 'paz' %}Casos derivados para acompañamiento psicológico.
+    {% else %}Casos derivados para orientación legal.{% endif %}
+  </p>
+
+  {% if not leads %}
+  <div class="card">
+    <p style="margin:0;">Todavía no tienes casos derivados. Cuando alguien complete su Mirror 2 y pida ser
+    contactado/a contigo, va a aparecer aquí.</p>
+  </div>
+  {% endif %}
+
+  {% for m in leads %}
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="margin-bottom:2px;">{{ m.nombre }}</h3>
+        <p style="margin:0;opacity:0.7;font-size:0.9rem;">{{ m.email }} · {{ m.created_at.strftime('%d-%m-%Y') if m.created_at else '' }}</p>
+      </div>
+      <span class="badge">
+        {% if profesional_id == 'paz' %}{{ m.estado_paz or 'nuevo' }}{% else %}{{ m.estado_abogada or 'nuevo' }}{% endif %}
+      </span>
+    </div>
+
+    {% if m.riesgo_flag %}
+    <div class="aviso-riesgo visible" style="margin-top:14px;">
+      <strong>Señal de riesgo detectada en este caso.</strong>
+      Revisar con prioridad según el protocolo interno.
+    </div>
+    {% endif %}
+
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+      <a class="btn" href="/panel/documento/{{ m.id }}">Descargar documento</a>
+      <form method="post" action="/panel/lead/{{ m.id }}/estado">
+        <button type="submit" class="btn-secundario" style="background:transparent;border:1.5px solid var(--azul);color:var(--azul);padding:14px 24px;border-radius:10px;font-weight:600;">
+          Marcar {% if (profesional_id == 'paz' and m.estado_paz == 'contactado') or (profesional_id == 'abogada' and m.estado_abogada == 'contactado') %}como nuevo{% else %}como contactado{% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

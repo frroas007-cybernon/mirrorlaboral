@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Gracias — Mirror Laboral{% endblock %}
+{% block content %}
+
+{% if m.riesgo_flag %}
+<div class="card" style="border-color:#d98a5f;">
+  <strong style="color:#7a3a1e;">Si necesitas hablar con alguien ahora, no esperes a leer tus documentos.</strong>
+  <p style="margin-top:6px;">Salud Responde: {{ telefono_ayuda }} (línea gratuita, disponible las 24 horas).</p>
+</div>
+{% endif %}
+
+{% if m.documentos_generados %}
+<div class="card">
+  <h1>Listo, {{ m.nombre }}.</h1>
+  {% if m.documentos_enviados %}
+  <p>Te enviamos tus documentos a <strong>{{ m.email }}</strong>. Revisa también spam/promociones por si acaso.</p>
+  {% else %}
+  <p>Tus documentos ya están generados. Tuvimos un problema enviando el correo — escríbenos a
+  mirrorlaboral@gmail.com y te los reenviamos directamente.</p>
+  {% endif %}
+  <p class="disclaimer">Esto lo armó nuestro equipo a partir de lo que respondiste. No reemplaza una evaluación
+  profesional ni constituye asesoría legal.</p>
+</div>
+
+{% if derivacion_ok %}
+<div class="card">
+  <h2>Listo</h2>
+  <p>Guardamos tu preferencia. Si aceptaste ser contactado/a, la profesional correspondiente va a revisar tu caso
+  en su panel — el contacto siempre parte por su lado, con sus propios tiempos y honorarios.</p>
+</div>
+{% elif m.doc_psicologico or m.doc_legal %}
+<div class="card">
+  <h2>¿Quieres que te contactemos?</h2>
+  <p>Esto es completamente opcional. Si aceptas, la profesional que corresponda va a ver tu caso disponible en su
+  panel — nunca la contactamos nosotros por ti, ni ella te contacta automáticamente sin revisar antes tu caso.</p>
+  <form method="post" action="/mirror2/derivar/{{ m.id }}">
+    <div class="opciones">
+      {% if m.doc_psicologico %}
+      <label><input type="checkbox" name="quiere_paz" value="true"> Sí, quiero que Paz (psicóloga) vea mi
+      Discovery Psicológico y pueda contactarme.</label>
+      {% endif %}
+      {% if m.doc_legal %}
+      <label><input type="checkbox" name="quiere_abogada" value="true"> Sí, quiero que la abogada vea mi
+      Discovery Legal y pueda contactarme.</label>
+      {% endif %}
+    </div>
+    <p class="ayuda-campo">Paz y la abogada son profesionales independientes — cobran sus propios honorarios,
+    directamente contigo, fuera de esta plataforma.</p>
+    <button type="submit">Confirmar</button>
+  </form>
+</div>
+{% endif %}
+
+{% else %}
+<div class="card">
+  <h1>Estamos confirmando tu pago</h1>
+  <p>Esto puede tardar unos minutos. En cuanto se confirme, te enviaremos tus documentos a
+  <strong>{{ m.email }}</strong> automáticamente — no necesitas quedarte en esta página.</p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -11,27 +11,44 @@
       --arena: #D9CDBF;
       --marfil: #F7F4EF;
       --carbon: #303436;
+      --azul-suave: #1f4d55;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--marfil);
       color: var(--carbon);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.55;
+      line-height: 1.6;
     }
+    a { color: inherit; }
     .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
-    header.site { padding: 20px; text-align: center; }
-    header.site .brand { color: var(--azul); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em; }
-    header.site .tagline { color: var(--carbon); opacity: 0.7; font-size: 0.9rem; margin-top: 2px; }
-    h1 { color: var(--azul); font-size: 1.5rem; margin-bottom: 4px; }
-    h2 { color: var(--azul); font-size: 1.15rem; }
+    .wrap-ancho { max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
+
+    header.site {
+      padding: 18px 20px;
+      text-align: center;
+      background: var(--marfil);
+      border-bottom: 1px solid var(--arena);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header.site a.brand-link { text-decoration: none; }
+    header.site .brand { color: var(--azul); font-weight: 700; font-size: 1.15rem; letter-spacing: 0.03em; }
+    header.site .tagline { color: var(--carbon); opacity: 0.65; font-size: 0.85rem; margin-top: 2px; }
+
+    h1 { color: var(--azul); font-size: 1.6rem; margin-bottom: 8px; line-height: 1.3; }
+    h2 { color: var(--azul); font-size: 1.25rem; margin-bottom: 10px; }
+    h3 { color: var(--azul); font-size: 1.05rem; margin-bottom: 6px; }
     p { margin: 0 0 14px; }
+
     .card {
       background: #fff;
       border: 1px solid var(--arena);
-      border-radius: 14px;
-      padding: 22px 20px;
+      border-radius: 16px;
+      padding: 24px 22px;
       margin-bottom: 18px;
     }
     fieldset {
@@ -45,6 +62,7 @@
       margin-bottom: 10px;
       padding: 0;
     }
+    .ayuda-campo { font-size: 0.82rem; color: var(--carbon); opacity: 0.65; margin: -6px 0 10px; }
     .opciones label {
       display: block;
       background: var(--marfil);
@@ -57,26 +75,39 @@
     }
     .opciones input { margin-right: 8px; }
     .opciones label:hover { border-color: var(--verde); }
-    input[type="email"] {
+    input[type="email"], input[type="text"], input[type="number"], textarea {
       width: 100%;
       padding: 12px 14px;
       border-radius: 10px;
       border: 1px solid var(--arena);
       font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
     }
+    textarea { resize: vertical; min-height: 110px; }
+    label.campo-label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
+
     button, .btn {
       display: inline-block;
       background: var(--azul);
       color: #fff;
       border: none;
-      padding: 13px 22px;
+      padding: 14px 24px;
       border-radius: 10px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
+      text-align: center;
     }
     button:hover, .btn:hover { opacity: 0.92; }
+    .btn-secundario {
+      background: transparent;
+      color: var(--azul);
+      border: 1.5px solid var(--azul);
+    }
+    .btn-bloque { display: block; width: 100%; }
+
     .aviso-riesgo {
       display: none;
       background: #fff4ef;
@@ -86,21 +117,151 @@
       margin-top: 10px;
       font-size: 0.92rem;
     }
+    .aviso-riesgo.visible { display: block; }
     .aviso-riesgo strong { display: block; margin-bottom: 4px; color: #7a3a1e; }
+
     .disclaimer { font-size: 0.8rem; color: var(--carbon); opacity: 0.65; margin-top: 24px; }
-    .cta-box { background: var(--verde); border-radius: 14px; padding: 20px; text-align: center; }
+    .cta-box { background: var(--verde); border-radius: 16px; padding: 24px; text-align: center; }
     .cta-box p { color: var(--azul); }
-    footer.site { text-align: center; padding: 30px 20px; font-size: 0.8rem; opacity: 0.6; }
+    .cta-box h2 { color: var(--azul); }
+
+    footer.site {
+      text-align: center;
+      padding: 34px 20px 50px;
+      font-size: 0.82rem;
+      opacity: 0.65;
+    }
+
+    /* ---- Landing / marketing sections ---- */
+    .hero {
+      background: linear-gradient(180deg, #eef2ee 0%, var(--marfil) 100%);
+      padding: 56px 20px 44px;
+      text-align: center;
+    }
+    .hero .kicker {
+      display: inline-block;
+      background: #fff;
+      border: 1px solid var(--arena);
+      color: var(--azul);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+    .hero h1 { font-size: 2rem; max-width: 720px; margin: 0 auto 14px; }
+    .hero p.lead { font-size: 1.08rem; max-width: 620px; margin: 0 auto 26px; opacity: 0.85; }
+    .hero .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero .cta-row .btn { min-width: 220px; }
+
+    .section { padding: 46px 0; }
+    .section-titulo { text-align: center; max-width: 640px; margin: 0 auto 32px; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    @media (max-width: 780px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .paso {
+      background: #fff;
+      border: 1px solid var(--arena);
+      border-radius: 16px;
+      padding: 22px;
+    }
+    .paso .numero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--azul);
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .tier-card {
+      background: #fff;
+      border: 1.5px solid var(--arena);
+      border-radius: 16px;
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+    }
+    .tier-card.destacado { border-color: var(--azul); box-shadow: 0 6px 22px rgba(23,63,70,0.10); }
+    .tier-card .precio { color: var(--azul); font-size: 1.7rem; font-weight: 700; margin: 6px 0 12px; }
+    .tier-card .precio span { font-size: 0.95rem; font-weight: 500; opacity: 0.7; }
+    .tier-card ul { margin: 0 0 20px; padding-left: 18px; font-size: 0.92rem; }
+    .tier-card ul li { margin-bottom: 6px; }
+    .tier-card .btn { margin-top: auto; }
+    .badge {
+      display: inline-block;
+      background: var(--arena);
+      color: var(--azul);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+
+    .confianza-item { display: flex; gap: 12px; align-items: flex-start; }
+    .confianza-item .icono { font-size: 1.4rem; line-height: 1; }
+
+    .faq-item { border-bottom: 1px solid var(--arena); padding: 16px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item h3 { margin-bottom: 6px; }
+    .faq-item p { margin-bottom: 0; opacity: 0.85; font-size: 0.95rem; }
+
+    .franja {
+      background: var(--azul);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .franja h2 { color: #fff; }
+    .franja .btn { background: #fff; color: var(--azul); }
+    .franja p { opacity: 0.9; }
+
+    .selector-card {
+      background: #fff;
+      border: 1.5px solid var(--arena);
+      border-radius: 18px;
+      padding: 28px 24px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .selector-card.gratis { border-color: var(--verde); }
+    .selector-card.pago { border-color: var(--azul); }
+    .selector-card .precio-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--azul);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
   </style>
 </head>
 <body>
   <header class="site">
-    <div class="brand">MIRROR LABORAL</div>
-    <div class="tagline">Claridad antes de decidir</div>
+    <a class="brand-link" href="/">
+      <div class="brand">MIRROR LABORAL</div>
+      <div class="tagline">Claridad antes de decidir</div>
+    </a>
   </header>
+  {% block full_content %}
   <div class="wrap">
     {% block content %}{% endblock %}
   </div>
+  {% endblock %}
   <footer class="site">Mirror Laboral · mirrorlaboral@gmail.com</footer>
 </body>
 </html>

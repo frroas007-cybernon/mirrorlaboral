@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+{% block title %}Tu Mirror completo — Mirror Laboral{% endblock %}
+{% block content %}
+<h1>Tu Mirror completo — {{ tier_info.titulo }}</h1>
+<p style="opacity:0.75;">Responde con calma, a tu ritmo. Todas tus respuestas se guardan de forma confidencial.</p>
+
+<form method="post" action="/mirror2/formulario" class="card">
+  <input type="hidden" name="tier" value="{{ tier }}">
+
+  <fieldset>
+    <legend>¿Cómo te llamamos, y a dónde te enviamos tus documentos?</legend>
+    <label class="campo-label">Tu nombre</label>
+    <input type="text" name="nombre" required style="margin-bottom:12px;">
+    <label class="campo-label">Tu correo</label>
+    <input type="email" name="email" required>
+  </fieldset>
+
+  <fieldset>
+    <legend>Antes de seguir: en las últimas semanas, ¿has sentido que ya no puedes más, o has tenido pensamientos
+    de hacerte daño?</legend>
+    <div class="opciones">
+      {% for value, label in riesgo_opciones %}
+      <label>
+        <input type="radio" name="riesgo_screening" value="{{ value }}" required onchange="chequearRiesgo(this)">
+        {{ label }}
+      </label>
+      {% endfor %}
+    </div>
+    <div class="aviso-riesgo" id="aviso-riesgo">
+      <strong>Si necesitas hablar con alguien ahora, no esperes a terminar este formulario.</strong>
+      Salud Responde: {{ telefono_ayuda }} (línea gratuita, disponible las 24 horas). Puedes seguir completando el
+      Mirror si quieres, a tu ritmo — este aviso no bloquea el formulario.
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <label class="campo-label">Contacto de confianza (opcional)</label>
+    <p class="ayuda-campo">Esto es opcional, y solo lo usaríamos si nuestro equipo evalúa que existe una situación
+    de riesgo real — nunca de forma rutinaria, y siempre intentando comunicarnos contigo primero. Puedes dejarlo en
+    blanco si prefieres no compartirlo.</p>
+    <input type="text" name="contacto_confianza" placeholder="Nombre y forma de contacto de alguien de tu confianza">
+  </fieldset>
+
+  {% if incluye_legal %}
+  <h2 style="margin-top:30px;">Sobre los hechos</h2>
+
+  <fieldset>
+    <legend>¿Cuál es tu cargo actual?</legend>
+    <input type="text" name="cargo">
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Hace cuánto tiempo trabajas en esta empresa?</legend>
+    <div class="opciones">
+      {% for value, label in antiguedad_opciones %}
+      <label><input type="radio" name="antiguedad" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  {% if incluye_legal_completo %}
+  <fieldset>
+    <legend>¿Qué tipo de contrato tienes?</legend>
+    <div class="opciones">
+      {% for value, label in tipo_contrato_opciones %}
+      <label><input type="radio" name="tipo_contrato" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endif %}
+
+  <fieldset>
+    <legend>Nombre completo de la persona que consideras responsable de la situación</legend>
+    <input type="text" name="persona_senalada" id="persona_senalada">
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Qué relación tiene esa persona contigo?</legend>
+    <div class="opciones">
+      {% for value, label in relacion_opciones %}
+      <label><input type="radio" name="relacion" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Si lo sabes, nombre o razón social de la empresa, y RUT si lo tienes a mano</legend>
+    <p class="ayuda-campo">Ninguno de los dos campos es obligatorio.</p>
+    <input type="text" name="empresa_nombre" id="empresa_nombre" placeholder="Nombre o razón social de la empresa" style="margin-bottom:10px;">
+    <input type="text" name="empresa_rut" placeholder="RUT de la empresa (opcional)">
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Hace cuánto comenzó esta situación, de la forma más precisa que puedas?</legend>
+    <p class="ayuda-campo">Puede ser una fecha exacta o aproximada, ej. "desde marzo de 2026" o "hace unos 4 meses".</p>
+    <input type="text" name="inicio">
+  </fieldset>
+
+  <fieldset>
+    <legend>Describe, en el orden en que ocurrieron, los hechos más importantes que quieras dejar registrados</legend>
+    <p class="ayuda-campo">Incluye fechas si las recuerdas. Este relato es la base de tu Discovery Legal y de tu
+    Anexo DT si corresponde.</p>
+    <textarea name="relato_libre" rows="6"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Cuentas con alguno de estos antecedentes?</legend>
+    <div class="opciones">
+      {% for op in evidencia_opciones %}
+      <label><input type="checkbox" name="evidencia_lista" value="{{ op }}"> {{ op }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Si marcaste "Testigos" arriba: ¿ese testigo sigue trabajando en la empresa hoy?</legend>
+    <div class="opciones">
+      {% for value, label in testigo_activo_opciones %}
+      <label><input type="radio" name="testigo_activo" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  {% if incluye_legal_completo %}
+  <fieldset>
+    <legend>¿Ya hiciste algo al respecto?</legend>
+    <div class="opciones">
+      {% for value, label in gestion_previa_opciones %}
+      <label><input type="radio" name="gestion_previa" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Si ya presentaste una denuncia formal: ¿hace cuánto la presentaste?</legend>
+    <input type="text" name="gestion_previa_hace_cuanto">
+  </fieldset>
+
+  <fieldset>
+    <legend>Pensando en cómo te gustaría que se resolviera esto, ¿qué se acerca más a lo que sientes hoy?</legend>
+    <div class="opciones">
+      {% for value, label in intencion_opciones %}
+      <label><input type="radio" name="intencion" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Sabes si tu empresa tiene un protocolo de prevención de acoso laboral vigente?</legend>
+    <div class="opciones">
+      {% for value, label in protocolo_vigente_opciones %}
+      <label><input type="radio" name="protocolo_vigente" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Te encuentras en alguna de estas situaciones?</legend>
+    <div class="opciones">
+      {% for op in fuero_opciones %}
+      <label><input type="checkbox" name="fuero" value="{{ op }}"> {{ op }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Cuál es tu remuneración mensual aproximada, antes de descuentos?</legend>
+    <p class="ayuda-campo">Esto es solo para dimensionar tu situación — no se comparte con nadie sin tu autorización.</p>
+    <input type="number" name="remuneracion">
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Has firmado algún documento relacionado con tu salida de la empresa (finiquito, carta de renuncia, acuerdo de cualquier tipo)?</legend>
+    <div class="opciones">
+      {% for value, label in finiquito_opciones %}
+      <label><input type="radio" name="firmo_finiquito" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endif %}
+  {% endif %}
+
+  {% if incluye_psico %}
+  <h2 style="margin-top:30px;">Sobre cómo te ha afectado</h2>
+  <p style="opacity:0.75;">Escala: Nunca — Rara vez — A veces — Frecuentemente.</p>
+
+  {% for clave, titulo, preguntas in psico_dimensiones %}
+  <h3>{{ titulo }}</h3>
+  {% for campo, texto in preguntas %}
+  <fieldset>
+    <legend>{{ texto }}</legend>
+    <div class="opciones">
+      {% for value, label in escala_frecuencia %}
+      <label><input type="radio" name="{{ campo }}" value="{{ value }}" required> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  {% endfor %}
+
+  <h3>Un poco más sobre ti en el último mes</h3>
+  <p style="opacity:0.75;">Escala: No ha cambiado — Cambió un poco — Cambió notoriamente.</p>
+  {% for campo, texto in inventario_impacto %}
+  <fieldset>
+    <legend>{{ texto }}</legend>
+    <div class="opciones">
+      {% for value, label in escala_impacto %}
+      <label><input type="radio" name="{{ campo }}" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+
+  <fieldset>
+    <legend>¿Tienes con quién hablar de esto hoy?</legend>
+    <div class="opciones">
+      {% for value, label in red_apoyo_opciones %}
+      <label><input type="radio" name="red_apoyo" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Has buscado ayuda psicológica antes, por este motivo o por otro?</legend>
+    <div class="opciones">
+      {% for value, label in ayuda_previa_opciones %}
+      <label><input type="radio" name="ayuda_psicologica_previa" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Qué pasó hoy, específicamente, que te hizo decidir completar esto ahora?</legend>
+    <p class="ayuda-campo">Opcional, pero fuertemente sugerido.</p>
+    <textarea name="motivo_consulta" rows="3"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Sigues yendo a trabajar con normalidad, has faltado algunas veces, o estás con licencia médica actualmente?</legend>
+    <div class="opciones">
+      {% for value, label in situacion_actual_opciones %}
+      <label><input type="radio" name="situacion_actual" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Estás actualmente en tratamiento psicológico o psiquiátrico, o tomando algún medicamento relacionado con esto?</legend>
+    <div class="opciones">
+      {% for value, label in en_tratamiento_opciones %}
+      <label><input type="radio" name="en_tratamiento" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Sientes que esto también está afectando otras áreas de tu vida (pareja, familia, otras responsabilidades)?</legend>
+    <div class="opciones">
+      {% for value, label in otras_areas_opciones %}
+      <label><input type="radio" name="otras_areas_afectadas" value="{{ value }}"> {{ label }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Qué has hecho hasta ahora para manejar esto?</legend>
+    <div class="opciones">
+      {% for op in estrategias_opciones %}
+      <label><input type="checkbox" name="estrategias_afrontamiento" value="{{ op }}"> {{ op }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Describe con tus palabras qué es lo que más te pesa de todo esto</legend>
+    <p class="ayuda-campo">Esta respuesta se incluye textual, entre comillas, en tu Discovery Psicológico — como tu
+    propia voz.</p>
+    <textarea name="open_text" rows="5"></textarea>
+  </fieldset>
+  {% endif %}
+
+  <button type="submit">Continuar al pago — ${{ "{:,}".format(tier_info.precio).replace(",", ".") }}</button>
+</form>
+
+<script>
+  function chequearRiesgo(input) {
+    var aviso = document.getElementById('aviso-riesgo');
+    if (input.value !== 'No') { aviso.classList.add('visible'); } else { aviso.classList.remove('visible'); }
+  }
+</script>
+{% endblock %}

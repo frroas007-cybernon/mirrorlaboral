@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Mirror 2 — Mirror Laboral{% endblock %}
+{% block full_content %}
+<div class="wrap-ancho" style="padding-top:36px;">
+  <div class="section-titulo">
+    <h1>Tu Mirror completo</h1>
+    <p>Antes de empezar, un par de cosas importantes para que sepas qué esperar.</p>
+  </div>
+
+  <div class="card">
+    <h3>Cómo funciona el cuestionario</h3>
+    <p>Vas a responder dos bloques: uno sobre <strong>cómo te ha afectado</strong> esta situación (patrones,
+    frecuencia, impacto en ti) y otro sobre <strong>los hechos</strong> (quién, cuándo, cuántas veces, si hay
+    testigos o registros). Al inicio te hacemos una pregunta de seguridad — si tu respuesta indica que necesitas
+    hablar con alguien ahora, te mostramos esa información de inmediato, sin esperar a que termines el
+    formulario.</p>
+    <p>Puedes responder todas las preguntas antes de pagar. El pago se confirma antes de generar y enviarte
+    cualquier documento — nunca al revés.</p>
+  </div>
+
+  <div class="card">
+    <h3>Al final, tú decides si quieres que te contactemos</h3>
+    <p>Con tus documentos listos, puedes pedir —si quieres, nunca es obligatorio— que te derivemos con Paz
+    (psicóloga) y/o con una abogada especializada en Ley Karin. Ellas cobran sus propios honorarios de forma
+    independiente; nosotros solo les avisamos que hay un caso nuevo esperando en su panel, sin compartir el
+    contenido sensible por correo.</p>
+  </div>
+
+  <div class="section-titulo" style="margin-top:38px;">
+    <h2>Elige qué necesitas</h2>
+    <p>El cuestionario es el mismo — lo que cambia es qué documento(s) recibes al final.</p>
+  </div>
+
+  <div class="grid-3">
+    {% for clave in tier_orden %}
+    {% set t = tiers[clave] %}
+    <div class="tier-card {% if clave == 'psico' or clave == 'legal' %}destacado{% endif %}">
+      <h3>{{ t.titulo }}</h3>
+      <div class="precio">${{ "{:,}".format(t.precio).replace(",", ".") }}</div>
+      <p>{{ t.resumen }}</p>
+      <ul>
+        {% for item in t.incluye %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      <a class="btn btn-bloque" href="/mirror2/formulario?tier={{ clave }}">Elegir {{ t.titulo }}</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <p class="disclaimer" style="text-align:center;margin-top:30px;">Ninguno de estos documentos reemplaza la
+  asesoría de un abogado ni la evaluación de un psicólogo, ni garantiza un resultado legal o médico específico.</p>
+</div>
+{% endblock %}

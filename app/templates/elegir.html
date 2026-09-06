@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Elige tu Mirror — Mirror Laboral{% endblock %}
+{% block full_content %}
+<div class="wrap-ancho" style="padding-top:36px;">
+  <div class="section-titulo">
+    <h1>¿Cuál es tu punto de partida hoy?</h1>
+    <p>No hay una respuesta correcta. Puedes empezar por lo gratis y decidir después si quieres profundizar.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="selector-card gratis">
+      <div class="precio-tag">Gratis · 2-3 minutos</div>
+      <h2>Mirror 1</h2>
+      <p>6 preguntas rápidas sobre cómo te han tratado en tu trabajo últimamente. Te devolvemos un primer
+      resultado personalizado: qué patrón se repite más, y por qué vale la pena mirarlo.</p>
+      <p style="opacity:0.75;font-size:0.92rem;">Ideal si: recién empiezas a notar que algo no está bien y
+      quieres una primera lectura, sin ningún compromiso.</p>
+      <a class="btn btn-bloque" href="/mirror1">Hacer mi Mirror 1 gratis</a>
+    </div>
+
+    <div class="selector-card pago">
+      <div class="precio-tag">Desde $15.000</div>
+      <h2>Mirror 2 — completo</h2>
+      <p>Un cuestionario más detallado, en dos partes: cómo te ha afectado esto, y qué pasó exactamente (hechos,
+      fechas, evidencia). A partir de tus respuestas armamos documentos listos para compartir con un profesional
+      o para tu propia denuncia ante la Dirección del Trabajo.</p>
+      <p style="opacity:0.75;font-size:0.92rem;">Ideal si: ya tienes bastante claridad de que algo no está bien y
+      quieres dar un paso más concreto.</p>
+      <a class="btn btn-bloque" href="/mirror2">Ver el Mirror 2</a>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:28px;">
+    <p style="margin:0;font-size:0.9rem;opacity:0.75;">En ambos casos, si en algún momento de las preguntas
+    sientes que necesitas hablar con alguien ahora, te lo hacemos saber de inmediato — no tienes que esperar a
+    terminar el cuestionario ni a leer ningún resultado.</p>
+  </div>
+</div>
+{% endblock %}
