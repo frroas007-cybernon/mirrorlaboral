@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request, Form, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import ProgrammingError
 
 from app.db import Base, engine, get_db
 from app.models import Mirror1Response
@@ -39,8 +40,15 @@ PREGUNTAS_DIMENSION = [
 
 @app.on_event("startup")
 def on_startup():
-    # Idempotente: crea las tablas si no existen. Seguro de llamar en cada cold start.
-    Base.metadata.create_all(bind=engine)
+    # Crea las tablas si no existen. En serverless pueden arrancar varias
+    # instancias en paralelo e intentar crear la misma tabla a la vez -- eso
+    # no es un error real (la tabla ya quedo creada por la otra instancia),
+    # asi que lo ignoramos en vez de tumbar el arranque de la app.
+    try:
+        Base.metadata.create_all(bind=engine)
+    except ProgrammingError as exc:
+        if "already exists" not in str(exc):
+            raise
 
 
 @app.get("/", response_class=HTMLResponse)
