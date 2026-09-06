@@ -34,6 +34,8 @@
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
+    strong { font-weight: 600; color: var(--azul); }
+    .card-equipo strong, .franja strong, .mirror-mark strong { color: inherit; }
     .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
     .wrap-ancho { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
 
@@ -314,6 +316,16 @@
       .foto-galeria { grid-template-columns: 1fr; }
       .foto-galeria img { height: 200px; }
     }
+
+    /* ---- Small photo banner for secondary pages (e.g. /elegir) ---- */
+    .pagina-banner {
+      border-radius: var(--radio);
+      overflow: hidden;
+      box-shadow: var(--sombra-md);
+      margin-bottom: 30px;
+    }
+    .pagina-banner img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    @media (max-width: 720px) { .pagina-banner img { height: 160px; } }
 
     /* ---- Photo background for the closing CTA ---- */
     .franja.foto {
