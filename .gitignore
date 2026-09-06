@@ -5,3 +5,4 @@ local_dev.db
 .vercel
 venv/
 .DS_Store
+.git-credentials
