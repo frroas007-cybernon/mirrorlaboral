@@ -12,7 +12,7 @@
 <div class="card">
   <h1>{{ resultado.titulo }}</h1>
   {% for parrafo in resultado.parrafos %}
-  <p>{{ parrafo }}</p>
+  <p>{{ parrafo|safe }}</p>
   {% endfor %}
 </div>
 

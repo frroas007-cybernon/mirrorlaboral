@@ -75,67 +75,72 @@ def build_result_text(principal, secundario, contexto_key):
         return {
             "titulo": "Por lo que respondiste, no aparece un patrón fuerte en ninguna de las seis áreas que preguntamos.",
             "parrafos": [
-                "Eso, en principio, es una buena noticia. Pero si de todas formas sientes que algo no está del todo bien "
-                "y este primer vistazo no logró capturarlo —porque seis preguntas rápidas nunca cuentan la historia "
-                "completa—, tu Mirror completo tiene más profundidad y puede ayudarte a verlo con más detalle."
+                "Eso, en principio, es <strong>una buena noticia</strong>. Pero si de todas formas sientes que algo no "
+                "está del todo bien y este primer vistazo no logró capturarlo —porque seis preguntas rápidas nunca "
+                "cuentan la historia completa—, <strong>tu Mirror completo</strong> tiene más profundidad y puede "
+                "ayudarte a verlo con más detalle."
             ],
         }
 
     if principal == "trato":
         parrafos = [
             f"Hace {tiempo} que sientes que te hablan de una forma que te hace sentir menos — y que eso pasa, muchas "
-            "veces, frente a otras personas. Eso no es solo \"un jefe difícil\" o \"así es el ambiente acá\": es un "
-            "patrón que se repite, y los patrones que se repiten dejan huella, aunque a veces cueste nombrarla.",
+            "veces, frente a otras personas. Eso no es solo \"un jefe difícil\" o \"así es el ambiente acá\": es "
+            "<strong>un patrón que se repite</strong>, y los patrones que se repiten dejan huella, aunque a veces "
+            "cueste nombrarla.",
         ]
-        sec = _secundario_frase(secundario, "Y no es lo único que aparece en lo que contaste — también hay señales de "
-                                              "{secundario}, algo que muchas veces va de la mano con esto, aunque no "
-                                              "siempre se conecta a simple vista.")
+        sec = _secundario_frase(secundario, "Y no es lo único que aparece en lo que contaste — también hay señales "
+                                              "de <strong>{secundario}</strong>, algo que muchas veces va de la mano "
+                                              "con esto, aunque no siempre se conecta a simple vista.")
         if sec:
             parrafos.append(sec)
-        parrafos.append("Tu Mirror completo te muestra cómo se conectan estas piezas entre sí, y qué caminos tienen "
-                         "sentido para tu situación específica.")
+        parrafos.append("<strong>Tu Mirror completo</strong> te muestra cómo se conectan estas piezas entre sí, y "
+                         "qué caminos tienen sentido para tu situación específica.")
         return {"titulo": "Lo que más se repite en tu respuesta: el trato.", "parrafos": parrafos}
 
     if principal == "presion":
         parrafos = [
-            f"Hace {tiempo} que sientes que lo que te piden no es proporcional ni justo. Esto es de las señales más "
-            "fáciles de minimizar — \"es que el cargo es así\", \"es que estamos en una etapa exigente\" — y de las "
-            "que más cuesta ver con claridad desde adentro, precisamente porque el trabajo mismo se supone que "
-            "exige esfuerzo.",
+            f"Hace {tiempo} que sientes que <strong>lo que te piden no es proporcional ni justo</strong>. Esto es de "
+            "las señales más fáciles de minimizar — \"es que el cargo es así\", \"es que estamos en una etapa "
+            "exigente\" — y de las que más cuesta ver con claridad desde adentro, precisamente porque el trabajo "
+            "mismo se supone que exige esfuerzo.",
         ]
-        sec = _secundario_frase(secundario, "Sumado a esto, tu respuesta también muestra señales de {secundario} — "
-                                              "dos cosas que, juntas, cuentan una historia más completa que "
-                                              "cualquiera de las dos por separado.")
+        sec = _secundario_frase(secundario, "Sumado a esto, tu respuesta también muestra señales de "
+                                              "<strong>{secundario}</strong> — dos cosas que, juntas, cuentan una "
+                                              "historia más completa que cualquiera de las dos por separado.")
         if sec:
             parrafos.append(sec)
-        parrafos.append("Tu Mirror completo te ayuda a ver si lo que estás viviendo es exigencia normal del cargo, "
-                         "o algo más.")
+        parrafos.append("<strong>Tu Mirror completo</strong> te ayuda a ver si lo que estás viviendo es exigencia "
+                         "normal del cargo, o algo más.")
         return {"titulo": "Lo que más se repite en tu respuesta: la presión.", "parrafos": parrafos}
 
     if principal == "aislamiento":
         parrafos = [
-            f"Hace {tiempo} que sientes que te dejaron fuera — de conversaciones, de decisiones, de espacios donde "
-            "antes estabas con naturalidad. Esta es, de las seis señales que preguntamos, una de las que menos se "
-            "nombra en voz alta, porque no deja marca visible ni una frase que puedas repetir. Pero se siente, y "
-            "se acumula.",
+            f"Hace {tiempo} que sientes que <strong>te dejaron fuera</strong> — de conversaciones, de decisiones, de "
+            "espacios donde antes estabas con naturalidad. Esta es, de las seis señales que preguntamos, una de las "
+            "que menos se nombra en voz alta, porque no deja marca visible ni una frase que puedas repetir. Pero "
+            "<strong>se siente, y se acumula</strong>.",
         ]
-        sec = _secundario_frase(secundario, "Tu respuesta también muestra {secundario} — el aislamiento rara vez "
-                                              "llega solo.")
+        sec = _secundario_frase(secundario, "Tu respuesta también muestra <strong>{secundario}</strong> — el "
+                                              "aislamiento rara vez llega solo.")
         if sec:
             parrafos.append(sec)
-        parrafos.append("Tu Mirror completo profundiza en cómo se conecta esto con el resto de tu situación.")
+        parrafos.append("<strong>Tu Mirror completo</strong> profundiza en cómo se conecta esto con el resto de tu "
+                         "situación.")
         return {"titulo": "Lo que más se repite en tu respuesta: el aislamiento.", "parrafos": parrafos}
 
     if principal == "amenazas":
         parrafos = [
-            "De las seis áreas que preguntamos, esta es la que con más frecuencia indica que algo necesita mirarse "
-            f"pronto, no después. Hace {tiempo} que sientes esto, y eso ya es información importante por sí sola.",
+            "De las seis áreas que preguntamos, esta es la que con más frecuencia indica que "
+            f"<strong>algo necesita mirarse pronto, no después</strong>. Hace {tiempo} que sientes esto, y eso ya es "
+            "información importante por sí sola.",
         ]
-        sec = _secundario_frase(secundario, "Esto además viene acompañado de {secundario} en lo que nos contaste — "
-                                              "una combinación que conviene mirar completa, no por partes.")
+        sec = _secundario_frase(secundario, "Esto además viene acompañado de <strong>{secundario}</strong> en lo que "
+                                              "nos contaste — una combinación que conviene mirar completa, no por "
+                                              "partes.")
         if sec:
             parrafos.append(sec)
-        parrafos.append("Te recomendamos avanzar directamente a tu Mirror completo.")
+        parrafos.append("Te recomendamos avanzar directamente a <strong>tu Mirror completo</strong>.")
         return {
             "titulo": "Lo que más se repite en tu respuesta: la sensación de estar siendo vigilado/a o presionado/a "
                       "con consecuencias.",
@@ -146,15 +151,16 @@ def build_result_text(principal, secundario, contexto_key):
         parrafos = [
             f"Hace {tiempo} que esto te sigue fuera del horario laboral: te acompaña cuando intentas dormir, cuando "
             "deberías estar pensando en otra cosa. De las seis señales que preguntamos, esta es la que habla menos "
-            "de \"qué está pasando\" y más de \"qué te está costando\" — y eso, aunque sea difícil de medir, es tan "
-            "real como cualquier otra.",
+            "de \"qué está pasando\" y más de <strong>\"qué te está costando\"</strong> — y eso, aunque sea difícil "
+            "de medir, es tan real como cualquier otra.",
         ]
         sec = _secundario_frase(secundario, "Esto no ocurre en el vacío: tu respuesta también muestra señales de "
-                                              "{secundario}, que probablemente sea parte de lo que está pesando.")
+                                              "<strong>{secundario}</strong>, que probablemente sea parte de lo que "
+                                              "está pesando.")
         if sec:
             parrafos.append(sec)
-        parrafos.append("Tu Mirror completo te ayuda a ordenar esto y ver qué alternativas tiene sentido "
-                         "considerar — no solo para la situación, también para ti.")
+        parrafos.append("<strong>Tu Mirror completo</strong> te ayuda a ordenar esto y ver qué alternativas tiene "
+                         "sentido considerar — no solo para la situación, también para ti.")
         return {
             "titulo": "Lo que más se repite en tu respuesta: cómo te está afectando a ti — no solo lo que ocurre en "
                       "el trabajo.",
