@@ -7,10 +7,12 @@
     <a class="btn btn-secundario" href="/panel/logout">Cerrar sesión</a>
   </div>
   <p style="opacity:0.75;">
-    {% if profesional_id == 'paz' %}Casos derivados para acompañamiento psicológico.
+    {% if profesional_id == 'paz' %}Casos derivados para acompañamiento psicológico, y todas las respuestas del
+    Mirror 1 (acceso general, sin necesidad de derivación).
     {% else %}Casos derivados para orientación legal.{% endif %}
   </p>
 
+  <h2 style="margin-top:30px;">Casos derivados (Mirror 2)</h2>
   {% if not leads %}
   <div class="card">
     <p style="margin:0;">Todavía no tienes casos derivados. Cuando alguien complete su Mirror 2 y pida ser
@@ -47,5 +49,41 @@
     </div>
   </div>
   {% endfor %}
+
+  {% if profesional_id == 'paz' %}
+  <h2 style="margin-top:40px;">Mirror 1 — todas las respuestas</h2>
+  <p style="opacity:0.75;margin-top:-6px;">Estas son todas las personas que hicieron el Mirror 1 gratuito, no solo
+  las que pidieron ser contactadas. Ninguna de ellas tiene documento generado — es solo su primer resultado.</p>
+
+  {% if not mirror1_leads %}
+  <div class="card">
+    <p style="margin:0;">Todavía no hay respuestas del Mirror 1.</p>
+  </div>
+  {% endif %}
+
+  {% for r in mirror1_leads %}
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="margin-bottom:2px;">{{ r.nombre or "Sin nombre" }}</h3>
+        <p style="margin:0;opacity:0.7;font-size:0.9rem;">{{ r.email }}{% if r.telefono %} · {{ r.telefono }}{% endif %} ·
+        {{ r.created_at.strftime('%d-%m-%Y') if r.created_at else '' }}</p>
+      </div>
+    </div>
+
+    {% if r.riesgo_flag %}
+    <div class="aviso-riesgo visible" style="margin-top:14px;">
+      <strong>Señal de riesgo detectada en este caso.</strong>
+      Revisar con prioridad según el protocolo interno.
+    </div>
+    {% endif %}
+
+    <p style="margin-top:14px;margin-bottom:0;">
+      <strong>Patrón principal:</strong> {{ r.patron_principal_label }}
+      {% if r.patron_secundario_label %}<br><strong>Patrón secundario:</strong> {{ r.patron_secundario_label }}{% endif %}
+    </p>
+  </div>
+  {% endfor %}
+  {% endif %}
 </div>
 {% endblock %}

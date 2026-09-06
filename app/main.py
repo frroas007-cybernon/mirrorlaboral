@@ -7,11 +7,12 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import ProgrammingError
 
-from app.db import Base, engine, get_db
+from app.db import Base, engine, get_db, agregar_columnas_faltantes
 from app.models import Mirror1Response, Mirror2Response
 from app.config import SALUD_RESPONDE_TELEFONO, MODO_PAGO_SIMULADO, SITE_URL
 from app.scoring_mirror1 import (
     DIMENSIONS,
+    DIMENSION_LABELS,
     TIEMPO_OPCIONES,
     RIESGO_OPCIONES,
     compute_result,
@@ -57,6 +58,11 @@ def on_startup():
     except ProgrammingError as exc:
         if "already exists" not in str(exc):
             raise
+    try:
+        agregar_columnas_faltantes()
+    except ProgrammingError as exc:
+        if "already exists" not in str(exc) and "duplicate column" not in str(exc).lower():
+            raise
 
 
 # ---------------------------------------------------------------- LANDING --
@@ -97,7 +103,9 @@ def mirror1_submit(
     amenazas: int = Form(...),
     impacto: int = Form(...),
     contexto: str = Form(...),
+    nombre: str = Form(...),
     email: str = Form(...),
+    telefono: str = Form(None),
 ):
     scores = {
         "trato": trato,
@@ -111,7 +119,9 @@ def mirror1_submit(
     riesgo_flag = riesgo != "no"
 
     respuesta = Mirror1Response(
+        nombre=nombre.strip(),
         email=email.strip(),
+        telefono=telefono.strip() if telefono else None,
         riesgo_respuesta=riesgo,
         riesgo_flag=riesgo_flag,
         trato=trato,
@@ -447,10 +457,19 @@ def panel_dashboard(request: Request, db: Session = Depends(get_db)):
     if not profesional_id:
         return RedirectResponse("/panel/login")
 
+    mirror1_leads = []
     if profesional_id == "paz":
         leads = db.query(Mirror2Response).filter(Mirror2Response.deriva_paz.is_(True)).order_by(
             Mirror2Response.created_at.desc()
         ).all()
+        # A diferencia del Mirror 2 (que requiere derivación explícita, opt-in), Paz ve
+        # TODAS las respuestas del Mirror 1 como parte del acompañamiento general -- es
+        # una excepción deliberada al modelo de "solo lo que la persona deriva", pedida
+        # explícitamente por el usuario. La abogada no tiene este acceso.
+        mirror1_leads = db.query(Mirror1Response).order_by(Mirror1Response.created_at.desc()).all()
+        for r in mirror1_leads:
+            r.patron_principal_label = DIMENSION_LABELS.get(r.patron_principal, "Sin patrón marcado")
+            r.patron_secundario_label = DIMENSION_LABELS.get(r.patron_secundario) if r.patron_secundario else None
     else:
         leads = db.query(Mirror2Response).filter(Mirror2Response.deriva_abogada.is_(True)).order_by(
             Mirror2Response.created_at.desc()
@@ -463,6 +482,7 @@ def panel_dashboard(request: Request, db: Session = Depends(get_db)):
             "profesional": PROFESIONALES[profesional_id],
             "profesional_id": profesional_id,
             "leads": leads,
+            "mirror1_leads": mirror1_leads,
         },
     )
 

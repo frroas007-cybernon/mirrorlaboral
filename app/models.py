@@ -22,6 +22,8 @@ class Mirror1Response(Base):
     id = Column(String, primary_key=True, default=_uuid)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
+    nombre = Column(String, nullable=True)
+    telefono = Column(String, nullable=True)
     email = Column(String, nullable=False, index=True)
 
     # Screening de riesgo (R.1) -- "No" / "A veces lo he pensado" / "Sí, con frecuencia"

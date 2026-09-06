@@ -5,8 +5,8 @@
 <div class="card" style="background:var(--marfil);border-style:dashed;">
   <p style="margin:0 0 8px;">6 preguntas sobre cómo te han tratado en tu trabajo últimamente, más una pregunta de
   seguridad al inicio. Toma 2-3 minutos.</p>
-  <p style="margin:0;">Solo pedimos tu correo al final para enviarte tu resultado — no hace falta que respondas
-  todo de una vez pensándolo mucho, la primera impresión suele ser la más honesta.</p>
+  <p style="margin:0;">Solo pedimos tu nombre y tu correo al final para enviarte tu resultado — no hace falta que
+  respondas todo de una vez pensándolo mucho, la primera impresión suele ser la más honesta.</p>
 </div>
 
 <form method="post" action="/mirror1" class="card">
@@ -54,8 +54,13 @@
   </fieldset>
 
   <fieldset>
-    <legend>¿A dónde te enviamos tu Mirror?</legend>
-    <input type="email" name="email" placeholder="tu@correo.cl" required>
+    <legend>¿Cómo te llamamos, y a dónde te enviamos tu Mirror?</legend>
+    <label class="campo-label">Tu nombre</label>
+    <input type="text" name="nombre" required style="margin-bottom:12px;">
+    <label class="campo-label">Tu correo</label>
+    <input type="email" name="email" placeholder="tu@correo.cl" required style="margin-bottom:12px;">
+    <label class="campo-label">Tu teléfono (opcional)</label>
+    <input type="tel" name="telefono" placeholder="+56 9 ...">
   </fieldset>
 
   <button type="submit">Ver mi resultado</button>
