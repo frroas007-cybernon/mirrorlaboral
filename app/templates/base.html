@@ -226,6 +226,51 @@
       opacity: 0.85;
     }
 
+    /* ---- Photo variant of the mirror mark (hero visual) ---- */
+    .mirror-mark.foto {
+      background-image: linear-gradient(185deg, rgba(23,63,70,0.05) 40%, rgba(23,63,70,0.55) 100%),
+        url('/static/images/mirror_reflejo_lago.jpg');
+      background-size: cover;
+      background-position: center;
+      align-items: flex-end;
+      padding-bottom: 34px;
+    }
+    .mirror-mark.foto .glow-1, .mirror-mark.foto .glow-2 { display: none; }
+    .mirror-mark.foto .tagline-mini { color: #fff; opacity: 1; text-shadow: 0 2px 14px rgba(23,63,70,0.45); }
+
+    /* ---- Photo gallery strip (trust / accompaniment) ---- */
+    .foto-galeria {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 0 auto 44px;
+    }
+    .foto-galeria figure {
+      margin: 0;
+      border-radius: var(--radio);
+      overflow: hidden;
+      box-shadow: var(--sombra-md);
+      border: 1px solid var(--arena);
+    }
+    .foto-galeria img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 860px) {
+      .foto-galeria { grid-template-columns: 1fr; }
+      .foto-galeria img { height: 200px; }
+    }
+
+    /* ---- Photo background for the closing CTA ---- */
+    .franja.foto {
+      background-image: linear-gradient(160deg, rgba(23,63,70,0.90), rgba(23,63,70,0.80)),
+        url('/static/images/mirror_camino_amanecer.jpg');
+      background-size: cover;
+      background-position: center 30%;
+    }
+
     /* ---- Landing / marketing sections ---- */
     .hero {
       position: relative;

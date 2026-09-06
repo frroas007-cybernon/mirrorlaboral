@@ -2,6 +2,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse, Response, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import ProgrammingError
@@ -26,6 +27,7 @@ from app.panel_auth import verificar_password, crear_token, leer_token, PROFESIO
 BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI(title="Mirror Laboral")
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 ESCALA = [("0", "Nunca"), ("1", "Rara vez"), ("2", "A veces"), ("3", "Frecuentemente")]
